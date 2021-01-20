@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Mersys WebSite Test">
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter2"></listener>
+    </listeners>
+    <test name="WebSite Functionality Testing">
+        <classes>
+            <class name="TechnoStudyTesting"></class>
+        </classes>
+    </test>
+</suite>

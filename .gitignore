@@ -1,0 +1,12 @@
+*MyConstance
+*Demoversion
+/debug.log
+Project15.iml
+*target
+*test-output
+.idea
+target
+test-output
+*.iml
+
+
