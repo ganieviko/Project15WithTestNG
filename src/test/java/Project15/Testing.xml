@@ -6,7 +6,7 @@
     </listeners>
     <test name="WebSite Functionality Testing">
         <classes>
-            <class name="TechnoStudyTesting"></class>
+            <class name="Project15.TechnoStudyTesting"></class>
         </classes>
     </test>
 </suite>
