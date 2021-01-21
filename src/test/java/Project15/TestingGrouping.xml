@@ -12,6 +12,8 @@
     <test name="WebSite Functionality Testing">
         <classes>
             <class name="Project15.TechnoStudyTesting"></class>
+            <parameter name="login" value="daulet2030@gmail.com"></parameter>
+            <parameter name="password" value="TechnoStudy123@"></parameter>
         </classes>
     </test>
 </suite>

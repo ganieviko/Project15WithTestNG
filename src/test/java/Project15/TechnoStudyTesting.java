@@ -7,9 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 public class TechnoStudyTesting {
     private WebDriverWait wait;
@@ -33,9 +32,8 @@ public class TechnoStudyTesting {
     private String secondPersonName = "Senior Classes";
     private String secondPersonShortName = "Senior Classes";
     private String trashIcon = "tbody > tr:first-child td:nth-child(5) ms-delete-button";
-//C:\Users\ganie_000\Techno Study\Projects\Project15Maven\src\test\java\MyProject\Project15TestingTools.java
 
-    @BeforeClass
+    @BeforeClass(groups={"functional"})
     public void setUpWebSite(){
         System.setProperty("webdriver.chrome.driver", MyConstants.DRIVER_PATH);
         driver = new ChromeDriver();
@@ -45,15 +43,17 @@ public class TechnoStudyTesting {
         wait = new WebDriverWait(driver, 5);
         WebElement cookieButton = driver.findElement(By.cssSelector("a[aria-label='dismiss cookie message']"));
         cookieButton.click();
+        System.out.println("Smoke test working as expected");
     }
-        @AfterClass
-    public void closeWindow(){
-        driver.quit();
-    }
-    @Test
-    public void loginTestCase(){
-        driver.findElement(By.cssSelector("input[data-placeholder=\"Username\"]")).sendKeys(sendKeyUserName);
-        driver.findElement(By.cssSelector("input[data-placeholder=\"Password\"]")).sendKeys(sendKeyPassword);
+//    @AfterClass
+//    public void closeWindow(){ driver.quit();
+//    }
+
+    @Parameters({"login", "password"})
+    @Test(groups={"functional"})
+    public void loginTestCase(@Optional("daulet2030@gmail.com") String login, @Optional("TechnoStudy123@") String password){
+        driver.findElement(By.cssSelector("input[data-placeholder=\"Username\"]")).sendKeys(login);
+        driver.findElement(By.cssSelector("input[data-placeholder=\"Password\"]")).sendKeys(password);
         driver.findElement(By.cssSelector("button[aria-label=\"LOGIN\"]")).click();
         System.out.println("You successfully login !!!");
     }
@@ -102,6 +102,7 @@ public class TechnoStudyTesting {
         driver.findElement(By.cssSelector(shortNameElementLocation)).sendKeys(sectionShortName);
         WebElement addButton = driver.findElement(By.cssSelector("div[fxflexalign='center']"));
         addButton.click();
+        System.out.println("You added name and short name");
     }
     @Test(dependsOnMethods = {"nameAndShortName"})
     public void createAnotherSection(){
@@ -113,7 +114,9 @@ public class TechnoStudyTesting {
     public void verifying(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("div[role='alertdialog']"), "School Department successfully created"));
         WebElement verifyingCreate = driver.findElement(By.cssSelector("div[role='alertdialog']"));
+        String verifyingText = verifyingCreate.getText();
         System.out.println(verifyingCreate.getText());
+        Assert.assertEquals(verifyingText, "School Department successfully created");
     }
     @Test(dependsOnMethods = {"verifying"})
     public void clickingButtonAgain(){
@@ -121,7 +124,6 @@ public class TechnoStudyTesting {
         driver.findElement(By.cssSelector(nameSchoolDepartmentElement)).sendKeys("High School");
         driver.findElement(By.cssSelector(codeInputElement)).sendKeys("HS-1");
         driver.findElement(By.cssSelector(saveButtonCss)).click();
-
         driver.findElement(By.cssSelector("[aria-label='Close dialog']")).click();
     }
     @Test(dependsOnMethods = {"clickingButtonAgain"})
@@ -151,5 +153,6 @@ public class TechnoStudyTesting {
         String confirmDeleting = "button[type='submit']";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(confirmDeleting)));
         driver.findElement(By.cssSelector(confirmDeleting)).click();
+        System.out.println("It was deleted successfully !!!");
     }
 }
