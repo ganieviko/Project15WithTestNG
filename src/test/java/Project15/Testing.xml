@@ -9,7 +9,7 @@
     <listeners>
         <listener class-name="org.testng.reporters.EmailableReporter2"></listener>
     </listeners>
-    <test name="WebSite Functionality Testing">
+    <test name="WebSite Functionality Testing Case 1">
         <classes>
             <class name="Project15.TechnoStudyTesting"></class>
         </classes>

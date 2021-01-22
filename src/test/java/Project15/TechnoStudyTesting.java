@@ -8,7 +8,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
+import org.testng.xml.XmlTest;
 
 public class TechnoStudyTesting {
     private WebDriverWait wait;
@@ -34,7 +38,24 @@ public class TechnoStudyTesting {
     private String trashIcon = "tbody > tr:first-child td:nth-child(5) ms-delete-button";
 
     @BeforeClass(groups={"functional"})
-    public void setUpWebSite(){
+    public void checkingAllMethodAvailable(ITestContext context) {
+        ITestNGMethod[] allTestMethods = context.getAllTestMethods();
+        for (ITestNGMethod methods : allTestMethods) {
+            System.out.println(methods.getMethodName());
+            System.out.println("Before class Test");
+        }
+    }
+    @BeforeMethod
+    public void beforeMethod(XmlTest test){
+        String testName = test.getName();
+        System.out.println(testName);
+    }
+    @AfterMethod
+    public void afterMethod(ITestResult result){
+        System.out.println("Test status is " + result.getStatus());
+    }
+    @BeforeClass(groups={"functional"})
+    public void setUpWebSite(ITestContext context){
         System.setProperty("webdriver.chrome.driver", MyConstants.DRIVER_PATH);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -43,6 +64,9 @@ public class TechnoStudyTesting {
         wait = new WebDriverWait(driver, 5);
         WebElement cookieButton = driver.findElement(By.cssSelector("a[aria-label='dismiss cookie message']"));
         cookieButton.click();
+//        System.out.println(context.getSuite().getXmlSuite().getFileName());
+//        ITestNGMethod[] allTestMethods = context.getAllTestMethods();
+//        System.out.println(allTestMethods);
         System.out.println("Smoke test working as expected");
     }
 //    @AfterClass
